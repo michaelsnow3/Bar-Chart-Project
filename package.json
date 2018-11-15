@@ -1,0 +1,23 @@
+{
+  "name": "bar-chart-project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/michaelsnow3/Bar-Chart-Project.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/michaelsnow3/Bar-Chart-Project/issues"
+  },
+  "homepage": "https://github.com/michaelsnow3/Bar-Chart-Project#readme",
+  "dependencies": {
+    "eslint": "^5.9.0",
+    "eslint-config-lighthouselabs": "lighthouse-labs/eslint-config-lighthouselabs"
+  }
+}
