@@ -27,16 +27,22 @@ var drawBarChart = function(data, options, element){
   while(yAxis > 0){
     let newRow = $("<tr></tr>");
     newRow.appendTo(table);
-    let yLabel = $("<th class='yLabels'>" + yAxis + "</th>");
+    let newRow2 = newRow.clone().appendTo(table);
+    let yLabel = $("<th rowspan='2' class='yLabels'>" + yAxis + "</th>");
     yLabel.appendTo(newRow);
     //make a loop to fill out table cells for each data catagory
     for(let property in data){
       //create condition to determine if a bar should be present in current cell
       if(data[property] >= yAxis){
-        let cell = $("<th class='bgData'</th>");
+        let cell = $("<th rowspan='2' class='bgData'</th>");
         cell.appendTo(newRow);
+      } else if(data[property] > yAxis - yAxisInc){
+        let cell = $("<th rowspan='1' class='data'</th>");
+        let cell2 = $("<th rowspan='1' class='bgData'</th>");
+        cell.appendTo(newRow);
+        cell2.appendTo(newRow2);
       } else{
-        let cell = $("<th class='data'</th>");
+        let cell = $("<th rowspan='2' class='data'</th>");
         cell.appendTo(newRow);
       }
     }
@@ -57,7 +63,7 @@ var drawBarChart = function(data, options, element){
 }
 
 
-let testData = {"a": 1, "b": 2, "c": 3, "d": 4, "e": 5};
+let testData = {"a": 4, "b": 2.5, "c": 6, "d": 4.5, "e": 5};
 let testOptions = "";
 let testElement = "#barChart";
 drawBarChart(testData, testOptions, testElement);
