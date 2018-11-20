@@ -29,12 +29,18 @@ var drawBarChart = function(data, options, element){
     newRow.appendTo(table);
     let yLabel = $("<th class='yLabels'>" + yAxis + "</th>");
     yLabel.appendTo(newRow);
-    yAxis -= yAxisInc;
     //make a loop to fill out table cells for each data catagory
     for(let property in data){
-      let cell = $("<th class='data'</th>");
-      cell.appendTo(newRow);
+      //create condition to determine if a bar should be present in current cell
+      if(data[property] >= yAxis){
+        let cell = $("<th class='bgData'</th>");
+        cell.appendTo(newRow);
+      } else{
+        let cell = $("<th class='data'</th>");
+        cell.appendTo(newRow);
+      }
     }
+    yAxis -= yAxisInc;
   }
    //create a table row that will contain the labes of the bar chart
   let labelRow = $("<tr></tr>");
