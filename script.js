@@ -22,9 +22,6 @@ var drawBarChart = function(data, options, element){
   //make variable that will be displayed on y axis
   let yAxis = Math.ceil((yArray[yArray.length - 1] / yAxisInc))* yAxisInc;
 
-  // console.log(yAxis);
-  // console.log(yAxisInc);
-  // console.log(yArray);
 
   //loop through data values to generate cells for each bar
   while(yAxis > 0){
@@ -34,7 +31,7 @@ var drawBarChart = function(data, options, element){
     yLabel.appendTo(newRow);
     yAxis -= yAxisInc;
     //make a loop to fill out table cells for each data catagory
-    for(let property2 in data){
+    for(let property in data){
       let cell = $("<th class='data'</th>");
       cell.appendTo(newRow);
     }
@@ -54,7 +51,7 @@ var drawBarChart = function(data, options, element){
 }
 
 
-let testData = {"a": 1, "b": 2, "c": 3, "d": 4};
+let testData = {"a": 1, "b": 2, "c": 3, "d": 4, "e": 5};
 let testOptions = "";
 let testElement = "#barChart";
 drawBarChart(testData, testOptions, testElement);
