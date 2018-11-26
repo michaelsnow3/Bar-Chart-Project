@@ -9,10 +9,12 @@
   background: lightblue;
 }
 .placeholder{
-  width: 10%;
+  width: 10em;
+  background: red;
 }
 .xAxis{
   text-align: right;
+  border-right: 1px solid black;
 }
 .subTable{
   width: 100%;
@@ -23,4 +25,8 @@
 .test{
   width: 10em;
   overflow-wrap: break-word;
+}
+#bottomTable{
+  width: 100%;
+  border-collapse: collapse;
 }

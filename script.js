@@ -16,7 +16,7 @@ var drawBarChart = function(data, options, element){
   xArray.sort(function(a, b){
     return a - b;
   });
-  while(xArray[xArray.length - 1] - xArray[0] > xAxisInc * 5){
+  while(xArray[xArray.length - 1] > xAxisInc * 5){
     xAxisInc *= 5;
   }
   //make variable that will be displayed on y axis
@@ -32,7 +32,6 @@ var drawBarChart = function(data, options, element){
   for(let property in data){
     //make variable to keep track of bar width
     let widthPercent = (data[property] / xMax) * 100;
-    console.log(widthPercent);
 
     //make variables for html table tags
     let subTable = $("<table class='subTable'></table>");
@@ -52,18 +51,24 @@ var drawBarChart = function(data, options, element){
     tableRow.appendTo(table);
   }
 //create bottom row that contains value intervals
-  // let bottomRow = $("<tr><th class='placeholder'></th></tr>");
-  // while(xAxis < xArray[xArray.length - 1]){
-  //   let bottomTable = $("<table><tr><td></td></tr></table>");
-  //   let cell = $("<td class='xAxis'>" + xAxis + "</td>");
-  //   xAxis += xAxisInc;
-  //   cell.appendTo(bottomRow);
-  // }
-  // bottomRow.appendTo(table);
+  let placeholder = $("<th class='label'><p class='test'></p></th>");
+  let bottomRow = $("<tr></tr>");
+  let bottomTable = $("<table id='bottomTable'></table>");
+  let cellWidth = 100 / (xMax / xAxisInc);
+  let botTableCell = $("<td class='dataCell'></td>")
+  placeholder.appendTo(bottomRow);
+  while(xAxis <= xArray[xArray.length - 1] + xAxisInc){
+    let cell = $(`<td style="width: ${cellWidth}%;" class='xAxis'>` + xAxis + `</td>`);
+    xAxis += xAxisInc;
+    cell.appendTo(bottomRow);
+  }
+  bottomRow.appendTo(bottomTable);
+  bottomTable.appendTo(botTableCell);
+  botTableCell.appendTo("<tr></tr>").appendTo(table);
 }
 
 
-let testData = {"hello": 3, "asdf": 5, "qdsafreasdfsadfsdaqrerqwerwqee": 9, "d": 1, "e": 10};
+let testData = {"hello": 2, "asdf": 26, "qdsafreasdfsadfsdaqrerqwerwqee": 13, "d": 21, "e": 12};
 let testOptions = "";
 let testElement = "#barChart";
 drawBarChart(testData, testOptions, testElement);
