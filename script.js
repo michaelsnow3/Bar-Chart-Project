@@ -16,29 +16,54 @@ var drawBarChart = function(data, options, element){
   xArray.sort(function(a, b){
     return a - b;
   });
-  while(xArray[yArray.length - 1] - xArray[0] > xAxisInc * 5){
+  while(xArray[xArray.length - 1] - xArray[0] > xAxisInc * 5){
     xAxisInc *= 5;
   }
   //make variable that will be displayed on y axis
   let xAxis = xAxisInc;
-//create labels and bars for each property givin
+
+  //make a variable containing max domain value
+  let xMax = xAxisInc;
+  while(xMax < xArray[xArray.length - 1]){
+    xMax += xAxisInc;
+  }
+
+  //create labels and bars for each property givin
   for(let property in data){
+    //make variable to keep track of bar width
+    let widthPercent = (data[property] / xMax) * 100;
+    console.log(widthPercent);
+
+    //make variables for html table tags
+    let subTable = $("<table class='subTable'></table>");
     let row = $("<tr></tr>");
-    let label = $("<th class='label'>" + property + "</th>");
-    let bar = $("<td class='bar'></td>");
-    let empty = $("<td class='empty'></td>");
+    let label = $("<th class='label'><p class='test'>" + property + "</p></th>");
+    let bar = $(`<td style="width: ${widthPercent}%;" class='bar'></td>`);
+    let empty = $(`<td style="width: ${100 - widthPercent}%;"></td>`);
+    let tableRow = $("<tr></tr>");
+    let tableCell = $("<td class='dataCell'></td>");
 
     label.appendTo(row);
     bar.appendTo(row);
     empty.appendTo(row);
-    row.appendTo(table);
+    row.appendTo(subTable);
+    subTable.appendTo(tableCell);
+    tableCell.appendTo(tableRow);
+    tableRow.appendTo(table);
   }
-  //create bottom row that contains value intervals
-  let bottomRow = $("<tr><th class='placeholder'></th></tr>");
+//create bottom row that contains value intervals
+  // let bottomRow = $("<tr><th class='placeholder'></th></tr>");
+  // while(xAxis < xArray[xArray.length - 1]){
+  //   let bottomTable = $("<table><tr><td></td></tr></table>");
+  //   let cell = $("<td class='xAxis'>" + xAxis + "</td>");
+  //   xAxis += xAxisInc;
+  //   cell.appendTo(bottomRow);
+  // }
+  // bottomRow.appendTo(table);
 }
 
 
-let testData = {"a": 4.8, "b": 2.3, "c": 6.8, "d": 10, "e": 15};
+let testData = {"hello": 3, "asdf": 5, "qdsafreasdfsadfsdaqrerqwerwqee": 9, "d": 1, "e": 10};
 let testOptions = "";
 let testElement = "#barChart";
 drawBarChart(testData, testOptions, testElement);

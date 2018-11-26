@@ -1,19 +1,26 @@
 .barChart{
   border: 2px solid black;
   width: 100%;
-  height: 100%;
 }
 .label{
-  background: red;
-  width: 10%;
+  border-right: 2px solid black;
 }
 .bar{
   background: lightblue;
-  width: 40%;
-}
-.empty{
-  width: 50%;
 }
 .placeholder{
   width: 10%;
+}
+.xAxis{
+  text-align: right;
+}
+.subTable{
+  width: 100%;
+}
+.dataCell{
+  width: 100%;
+}
+.test{
+  width: 10em;
+  overflow-wrap: break-word;
 }
