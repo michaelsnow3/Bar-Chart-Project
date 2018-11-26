@@ -37,7 +37,7 @@ var drawBarChart = function(data, options, element){
     let subTable = $("<table class='subTable'></table>");
     let row = $("<tr></tr>");
     let label = $("<th class='label'><p class='test'>" + property + "</p></th>");
-    let bar = $(`<td style="width: ${widthPercent}%;" class='bar'></td>`);
+    let bar = $(`<td style="width: ${widthPercent}%;" class='bar'>${data[property]}</td>`);
     let empty = $(`<td style="width: ${100 - widthPercent}%;"></td>`);
     let tableRow = $("<tr></tr>");
     let tableCell = $("<td class='dataCell'></td>");
