@@ -60,6 +60,16 @@ var drawBarChart = function(data, options, element){
     subTable.appendTo(tableCell);
     tableCell.appendTo(tableRow);
   }
+
+  //add table row for x labels
+  let xRow = $("<tr></tr>");
+  //add a placeholder
+  $("<th></th>").appendTo(xRow);
+  xRow.appendTo(table);
+  for(let property in data){
+    let xLabel = $(`<th class='xLabel'><p>${property}</p></th>`);
+    xLabel.appendTo(xRow);
+  }
 }
 
 
