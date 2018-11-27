@@ -2,17 +2,21 @@
   border: 2px solid black;
   width: 100%;
   height: 500px;
+  border-collapse: collapse;
 }
 .label{
   border-right: 2px solid black;
 }
 .bar{
   background: lightblue;
-  width: 10%;
+  width: 100%;
   text-align: center;
 }
 .subTable{
   height: 100%;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
 }
 .dataCell{
   width: 20%;
@@ -27,9 +31,13 @@
   vertical-align: text-top;
 }
 .xLabel{
+  border-top: 1px solid black;
   height: 80px;
 
 }
 p{
   word-break: break-all;
+}
+#title{
+  text-align: center;
 }

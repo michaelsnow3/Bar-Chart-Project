@@ -3,6 +3,11 @@ var drawBarChart = function(data, options, element){
   var barChart = $(element);
   var table = $("<table class='barChart'></table>");
   table.appendTo(barChart);
+
+  //add a title to bar chart
+  var title = $("<h1 id='title'>Chart Title</h1>");
+  title.prependTo(barChart);
+
   //make a variable that will contain an array of the y-values and be used to determine y increment
   var yArray = [];
   //make a variable that will contain the increment the y ayis will contain
