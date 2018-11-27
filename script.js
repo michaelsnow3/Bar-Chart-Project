@@ -30,6 +30,17 @@ var drawBarChart = function(data, options, element){
 
   let tableRow = $("<tr></tr>");
   tableRow.appendTo(table);
+
+  //make a column for y axis values
+  let yCell = $("<td class='yCell'></td>");
+  let yColumn = $("<table class='yTable'></table>").appendTo(yCell);
+  yCell.appendTo(tableRow);
+  //add values to y column
+  while(yMax + yAxisInc > yAxis){
+    $(`<tr><th class='yAxis'>${yAxis}-<th></tr>`).prependTo(yColumn);
+    yAxis += yAxisInc;
+  }
+
   //create labels and bars for each property givin
   for(let property in data){
     //make variable to keep track of bar width
@@ -38,12 +49,9 @@ var drawBarChart = function(data, options, element){
     //make variables for html table tags
     let subTable = $("<table class='subTable'</table>");
     let row = $("<tr></tr>");
-    // let label = $("<th class='label'><p class='test'>" + property + "</p></th>");
     let bar = $(`<td style="height: ${heightPercent}%;" class='bar'>${data[property]}</td>`);
     let empty = $(`<tr><td style="height: ${100 - heightPercent}%;" class='empty'></td></tr>`);
     let tableCell = $("<td class='dataCell'></td>");
-
-    console.log(heightPercent)
 
     // label.appendTo(row);
     bar.appendTo(row);
@@ -55,7 +63,7 @@ var drawBarChart = function(data, options, element){
 }
 
 
-let testData = {"hello": 2, "asdf": 1, "qdsafreasdfsadfsdaqrerqwerwqee": 3, "d": 8, "e": 9};
+let testData = {"hello": 2, "asdf": 20, "qdsafreasdfsadfsdaqrerqwerwqee": 3, "d": 15, "e": 9};
 let testOptions = "";
 let testElement = "#barChart";
 drawBarChart(testData, testOptions, testElement);
