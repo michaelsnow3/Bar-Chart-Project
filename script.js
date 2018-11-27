@@ -1,7 +1,17 @@
 var drawBarChart = function(data, options, element){
+  //bar chart options
+  var barChartWidth = "100%";
+  var barChartHeight = "500px";
+  if(options.width){
+    barChartWidth = options.width;
+  }
+  if(options.height){
+    barChartHeight = options.height;
+  }
+
   //create bar chart outline located at element parameter
   var barChart = $(element);
-  var table = $("<table class='barChart'></table>");
+  var table = $(`<table style="height: ${barChartHeight}; width: ${barChartWidth}" class='barChart'></table>`);
   table.appendTo(barChart);
 
   //add a title to bar chart
@@ -78,7 +88,14 @@ var drawBarChart = function(data, options, element){
 }
 
 
+
+
+
+
 let testData = {"hello": 2, "asdf": 20, "qdsafreasdfsadfsdaqrerqwerwqee": 3, "d": 15, "e": 9};
-let testOptions = "";
+let testOptions = {
+  width: '80%',
+  height: '400px'
+};
 let testElement = "#barChart";
 drawBarChart(testData, testOptions, testElement);
