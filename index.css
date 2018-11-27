@@ -23,12 +23,14 @@
 }
 .yCell{
   border-right: 1px solid black;
+  width: 1%;
 }
 .yTable{
   height: 100%;
 }
 .yAxis{
   vertical-align: text-top;
+  text-align: right;
 }
 .xLabel{
   border-top: 1px solid black;

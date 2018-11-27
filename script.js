@@ -87,15 +87,25 @@ var drawBarChart = function(data, options, element){
   }
 }
 
+var test = function(){
+  let inputLabel = $(".inputLabel")[0].value;
+  let inputValue = $(".inputValue")[0].value;
+  if(Number(inputValue)){
+    testData[inputLabel] = inputValue;
+    $(".barChart").remove();
+    $("#title").remove();
+    drawBarChart(testData, testOptions, testElement);
+  }
+}
+
+$(".inputData").click(test);
 
 
-
-
-
-let testData = {"hello": 2, "asdf": 20, "qdsafreasdfsadfsdaqrerqwerwqee": 3, "d": 15, "e": 9};
+var testData = {};
 let testOptions = {
   width: '80%',
   height: '400px'
 };
 let testElement = "#barChart";
+
 drawBarChart(testData, testOptions, testElement);
