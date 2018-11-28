@@ -4,6 +4,7 @@ var drawBarChart = function(data, options, element){
   var barChartHeight = "500px";
   var barChartTitle = 'Bar Chart Title';
   var barValuePosition = 'middle';
+
   if(options.valuePosition){
     barValuePosition = options.valuePosition;
   }
@@ -64,15 +65,27 @@ var drawBarChart = function(data, options, element){
     yAxis += yAxisInc;
   }
 
-  //create labels and bars for each property givin
+  //create labels and bars for each property given
   for(let property in data){
+    //select correct colour for current property
+    var barColour = 'lightblue';
+    for(let prop in options){
+      if(prop == property + "BarColour"){
+        barColour = options[prop];
+      }
+    }
+
     //make variable to keep track of bar width
     let heightPercent = (data[property] / yMax) * 100;
 
     //make variables for html table tags
     let subTable = $("<table class='subTable'</table>");
     let row = $("<tr></tr>");
-    let bar = $(`<td style="height: ${heightPercent}%; vertical-align: ${barValuePosition}" class='bar'>${data[property]}</td>`);
+    let bar = $(`<td style="
+      height: ${heightPercent}%;
+      background-color: ${barColour};
+      vertical-align: ${barValuePosition}"
+      class='bar'>${data[property]}</td>`);
     let empty = $(`<tr><td style="height: ${100 - heightPercent}%;" class='empty'></td></tr>`);
     let tableCell = $("<td class='dataCell'></td>");
 
@@ -90,7 +103,14 @@ var drawBarChart = function(data, options, element){
   $("<th></th>").appendTo(xRow);
   xRow.appendTo(table);
   for(let property in data){
-    let xLabel = $(`<th class='xLabel'><p>${property}</p></th>`);
+    //change label to chosen colour
+    var labelColour = 'black';
+    for(let prop in options){
+      if(prop == property + "LabelColour"){
+        labelColour = options[prop];
+      }
+    }
+    let xLabel = $(`<th style="color: ${labelColour}" class='xLabel'><p>${property}</p></th>`);
     xLabel.appendTo(xRow);
   }
 }
@@ -113,14 +133,17 @@ var customizeInupt = function(){
   //make conditions to make sure inputed value is a non negative number
   if((Number(inputValue) || inputValue == 0) && inputValue >= 0 && !(inObj) ){
     testData[inputLabel] = inputValue;
-    newChart();
-    $(`<p id='p${track}'><span id='sp${track}'>${inputLabel}: ${inputValue}</span> <button id='${track}' class='remove'>Remove</button></p>`).prependTo("#userInput");
+    $(`<p id='p${track}'>
+      <span id='sp${track}'>${inputLabel}: ${inputValue}</span><button id='${track}' class='remove'>Remove</button></p>`)
+      .prependTo("#userInput");
+    testOptions[inputLabel+"LabelColour"] = currentLabelColour;
+    testOptions[inputLabel+"BarColour"] = currentBarColour;
     //add event listener to "remove" button to delete label and value from chart
     $(".remove").click(removeInput);
     track++;
+    newChart();
   }
 }
-
 //function that removes specified value and key from chart
 var removeInput = function(event){
   spTrack = event.target.id;
@@ -140,6 +163,16 @@ var newChart = function (){
   $("#title").remove();
   drawBarChart(testData, testOptions, testElement);
 }
+
+//adding event listener to change colour of label and bar
+var currentBarColour = "blue";
+var currentLabelColour = "black";
+$('.inputLabelColour').change(function(e){
+currentLabelColour = e.target.value;
+});
+$('.inputBarColour').change(function(e){
+currentBarColour = e.target.value;
+});
 
 // event listener that adds user input when "add to chart" button is clicked
 $(".inputData").click(customizeInupt);
@@ -181,4 +214,4 @@ var testOptions = {
 };
 var testElement = "#barChart";
 
-drawBarChart(testData = {'a': 4}, testOptions, testElement);
+drawBarChart(testData, testOptions, testElement);
