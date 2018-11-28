@@ -3,6 +3,8 @@ var drawBarChart = function(data, options, element){
   let barChartWidth = "100%";
   let barChartHeight = "500px";
   let barChartTitle = 'Bar Chart Title';
+  let titleFontSize = '2em';
+  let titleFontColour = 'black';
   let barValuePosition = 'middle';
   let barSpacing = '80%';
 
@@ -14,6 +16,12 @@ var drawBarChart = function(data, options, element){
   }
   if(options.title){
     barChartTitle = options.title;
+  }
+  if(options.titleFontSize){
+    titleFontSize = options.titleFontSize;
+  }
+  if(options.titleColour){
+    titleFontColour = options.titleColour;
   }
   if(options.width){
     barChartWidth = options.width;
@@ -28,7 +36,11 @@ var drawBarChart = function(data, options, element){
   table.appendTo(barChart);
 
   //add a title to bar chart
-  let title = $(`<h1 id='title'>${barChartTitle}</h1>`);
+  let title = $(`<h1 id='title'
+    style='color: ${titleFontColour};
+    font-size: ${titleFontSize};'
+    >${barChartTitle}
+    </h1>`);
   title.prependTo(barChart);
 
   //make a variable that will contain an array of the y-values and be used to determine y increment
@@ -123,7 +135,7 @@ var drawBarChart = function(data, options, element){
 let track = 0;
 
 //function that adds users input for label and value for bar chart
-let customizeInupt = function(){
+let customizeInput = function(){
   let inputLabel = $(".inputLabel")[0].value;
   let inputValue = $(".inputValue")[0].value;
 
@@ -138,7 +150,7 @@ let customizeInupt = function(){
   if((Number(inputValue) || inputValue == 0) && inputValue >= 0 && !(inObj) ){
     testData[inputLabel] = inputValue;
     $(`<p id='p${track}'>
-      <span id='sp${track}'>${inputLabel}: ${inputValue}</span><button id='${track}' class='remove'>Remove</button></p>`)
+      <span id='sp${track}'>${inputLabel}: </span><button id='${track}' class='remove'>Remove</button></p>`)
       .prependTo("#userInput");
     testOptions[inputLabel+"LabelColour"] = currentLabelColour;
     testOptions[inputLabel+"BarColour"] = currentBarColour;
@@ -185,7 +197,7 @@ currentBarColour = e.target.value;
 });
 
 // event listener that adds user input when "add to chart" button is clicked
-$(".inputData").click(customizeInupt);
+$(".inputData").click(customizeInput);
 
 //add event listener that changes width and height to users input
 $(".inputDim").click(function(){
@@ -194,9 +206,16 @@ $(".inputDim").click(function(){
   newChart();
 });
 
+//event listener to track title colour and store it in a variable
+let currentTitleColour = 'black';
+$(".inputFontColour").change(function(e){
+  currentTitleColour = e.target.value;
+})
 //add event listener that chagnes chart title to users input
 $(".changeTitle").click(function(){
   testOptions["title"] = $('.inputTitle')[0].value;
+  testOptions["titleFontSize"] = $('.inputFontSize')[0].value;
+  testOptions["titleColour"] = currentTitleColour;
   newChart();
 })
 
@@ -220,6 +239,8 @@ let testOptions = {
   width: '80%',
   height: '400px',
   title: 'Bar Chart Title',
+  titleFontSize: '2em',
+  titleColour: 'black',
   valuePosition: 'middle',
   barSpacing: '80%'
 };

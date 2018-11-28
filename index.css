@@ -43,3 +43,7 @@ p{
 h2{
   text-align: center;
 }
+button{
+  margin-right: 2em;
+  margin-left: 2em;
+}
