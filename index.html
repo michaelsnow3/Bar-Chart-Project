@@ -20,7 +20,7 @@
       type="text"
       name="Title">
     <button class="changeTitle">Make Change</button>
-  </div>
+  </div><hr>
 
   <h3>Add data to chart:</h3>
   <div id="userInput">
@@ -39,7 +39,7 @@
     name="barColour">
     <br><br>
     <button class="inputData">Add To Chart</button>
-  </div>
+  </div><hr>
 
   <h3>Change Width and Height of Bar Chart:</h3>
   <div id='changeDim'>
@@ -54,7 +54,7 @@
       type="text"
       name="height">
     <button class="inputDim">Make Changes</button>
-  </div>
+  </div><hr>
 
   <h3>Change Vertical Position of Bar Values:</h3>
   <div>
@@ -65,7 +65,17 @@
     <br>
     <input id='positionBottom' type="radio" name="verticalPosition" value="bottom">
     Bottom
-  </div>
+  </div><hr>
+
+  <h3>Change Bar Width:</h3>
+  <div id='changeDim'>
+      Bar Width: <input
+      placeholder='number in px, cm or %'
+      class="inputSpacing"
+      type="text"
+      name="barSpacing">
+      <button class="barSpacing">Make Change</button>
+  </div><hr>
 
   <script src="jquery.js"></script>
   <script src="script.js"></script>

@@ -1,10 +1,14 @@
 var drawBarChart = function(data, options, element){
   //bar chart options
-  var barChartWidth = "100%";
-  var barChartHeight = "500px";
-  var barChartTitle = 'Bar Chart Title';
-  var barValuePosition = 'middle';
+  let barChartWidth = "100%";
+  let barChartHeight = "500px";
+  let barChartTitle = 'Bar Chart Title';
+  let barValuePosition = 'middle';
+  let barSpacing = '80%';
 
+  if(options.barSpacing){
+    barSpacing = options.barSpacing;
+  }
   if(options.valuePosition){
     barValuePosition = options.valuePosition;
   }
@@ -19,18 +23,18 @@ var drawBarChart = function(data, options, element){
   }
 
   //create bar chart outline located at element parameter
-  var barChart = $(element);
-  var table = $(`<table style="height: ${barChartHeight}; width: ${barChartWidth}" class='barChart'></table>`);
+  let barChart = $(element);
+  let table = $(`<table style="height: ${barChartHeight}; width: ${barChartWidth}" class='barChart'></table>`);
   table.appendTo(barChart);
 
   //add a title to bar chart
-  var title = $(`<h1 id='title'>${barChartTitle}</h1>`);
+  let title = $(`<h1 id='title'>${barChartTitle}</h1>`);
   title.prependTo(barChart);
 
   //make a variable that will contain an array of the y-values and be used to determine y increment
-  var yArray = [];
+  let yArray = [];
   //make a variable that will contain the increment the y ayis will contain
-  var yAxisInc = 1;
+  let yAxisInc = 1;
 
   //fill yArray with y values inputed by user
   for(let yValue in data){
@@ -68,7 +72,7 @@ var drawBarChart = function(data, options, element){
   //create labels and bars for each property given
   for(let property in data){
     //select correct colour for current property
-    var barColour = 'lightblue';
+    let barColour = 'lightblue';
     for(let prop in options){
       if(prop == property + "BarColour"){
         barColour = options[prop];
@@ -79,7 +83,7 @@ var drawBarChart = function(data, options, element){
     let heightPercent = (data[property] / yMax) * 100;
 
     //make variables for html table tags
-    let subTable = $("<table class='subTable'</table>");
+    let subTable = $(`<table style='width: ${barSpacing}' class='subTable'</table>`);
     let row = $("<tr></tr>");
     let bar = $(`<td style="
       height: ${heightPercent}%;
@@ -104,7 +108,7 @@ var drawBarChart = function(data, options, element){
   xRow.appendTo(table);
   for(let property in data){
     //change label to chosen colour
-    var labelColour = 'black';
+    let labelColour = 'black';
     for(let prop in options){
       if(prop == property + "LabelColour"){
         labelColour = options[prop];
@@ -116,16 +120,16 @@ var drawBarChart = function(data, options, element){
 }
 
 //variable to keep track of user inputed data in order to select and delete
-var track = 0;
+let track = 0;
 
 //function that adds users input for label and value for bar chart
-var customizeInupt = function(){
+let customizeInupt = function(){
   let inputLabel = $(".inputLabel")[0].value;
   let inputValue = $(".inputValue")[0].value;
 
   //bool var to check if label is already in data object
   let inObj = false;
-  for(var property in testData){
+  for(let property in testData){
     if(property == inputLabel){
       inObj = true;
     }
@@ -145,12 +149,12 @@ var customizeInupt = function(){
   }
 }
 //function that removes specified value and key from chart
-var removeInput = function(event){
+let removeInput = function(event){
   spTrack = event.target.id;
-  var par = $(`#p${spTrack}`);
-  var item = $(`#sp${spTrack}`);
-  var str = item[0].innerHTML;
-  var rmKey = str.split(":")[0];
+  let par = $(`#p${spTrack}`);
+  let item = $(`#sp${spTrack}`);
+  let str = item[0].innerHTML;
+  let rmKey = str.split(":")[0];
 
   delete testData[rmKey];
   par.remove();
@@ -158,15 +162,21 @@ var removeInput = function(event){
 }
 
 //function that clears old graph and calls drawBarChart function
-var newChart = function (){
+let newChart = function (){
   $(".barChart").remove();
   $("#title").remove();
   drawBarChart(testData, testOptions, testElement);
 }
 
+//add event listener to change bar spacing
+$(".barSpacing").click(function(){
+  testOptions['barSpacing'] = $('.inputSpacing')[0].value;
+  newChart();
+})
+
 //adding event listener to change colour of label and bar
-var currentBarColour = "blue";
-var currentLabelColour = "black";
+let currentBarColour = "blue";
+let currentLabelColour = "black";
 $('.inputLabelColour').change(function(e){
 currentLabelColour = e.target.value;
 });
@@ -191,7 +201,7 @@ $(".changeTitle").click(function(){
 })
 
 //add event listeners to top mid and bot radio buttons
-var setPosition = function(){
+let setPosition = function(){
   if($('#positionTop')[0].checked){
     testOptions["valuePosition"] = 'top';
   }else if($('#positionMiddle')[0].checked){
@@ -205,13 +215,14 @@ $('#positionTop').click(setPosition);
 $('#positionMiddle').click(setPosition);
 $('#positionBottom').click(setPosition);
 
-var testData = {};
-var testOptions = {
+let testData = {};
+let testOptions = {
   width: '80%',
   height: '400px',
   title: 'Bar Chart Title',
-  valuePosition: 'middle'
+  valuePosition: 'middle',
+  barSpacing: '80%'
 };
-var testElement = "#barChart";
+let testElement = "#barChart";
 
-drawBarChart(testData, testOptions, testElement);
+drawBarChart(testData = {'a': 12, 'b': 6, 'c': 8}, testOptions, testElement);
