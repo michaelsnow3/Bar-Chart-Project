@@ -3,6 +3,10 @@ var drawBarChart = function(data, options, element){
   var barChartWidth = "100%";
   var barChartHeight = "500px";
   var barChartTitle = 'Bar Chart Title';
+  var barValuePosition = 'middle';
+  if(options.valuePosition){
+    barValuePosition = options.valuePosition;
+  }
   if(options.title){
     barChartTitle = options.title;
   }
@@ -68,7 +72,7 @@ var drawBarChart = function(data, options, element){
     //make variables for html table tags
     let subTable = $("<table class='subTable'</table>");
     let row = $("<tr></tr>");
-    let bar = $(`<td style="height: ${heightPercent}%;" class='bar'>${data[property]}</td>`);
+    let bar = $(`<td style="height: ${heightPercent}%; vertical-align: ${barValuePosition}" class='bar'>${data[property]}</td>`);
     let empty = $(`<tr><td style="height: ${100 - heightPercent}%;" class='empty'></td></tr>`);
     let tableCell = $("<td class='dataCell'></td>");
 
@@ -153,12 +157,28 @@ $(".changeTitle").click(function(){
   newChart();
 })
 
+//add event listeners to top mid and bot radio buttons
+var setPosition = function(){
+  if($('#positionTop')[0].checked){
+    testOptions["valuePosition"] = 'top';
+  }else if($('#positionMiddle')[0].checked){
+    testOptions["valuePosition"] = 'middle';
+  }else if($('#positionBottom')[0].checked){
+    testOptions["valuePosition"] = 'bottom';
+  }
+  newChart();
+}
+$('#positionTop').click(setPosition);
+$('#positionMiddle').click(setPosition);
+$('#positionBottom').click(setPosition);
+
 var testData = {};
 var testOptions = {
   width: '80%',
   height: '400px',
-  title: 'Bar Chart Title'
+  title: 'Bar Chart Title',
+  valuePosition: 'middle'
 };
 var testElement = "#barChart";
 
-drawBarChart(testData, testOptions, testElement);
+drawBarChart(testData = {'a': 4}, testOptions, testElement);
