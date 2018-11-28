@@ -94,6 +94,7 @@ var track = 0;
 var customizeInupt = function(){
   let inputLabel = $(".inputLabel")[0].value;
   let inputValue = $(".inputValue")[0].value;
+
   //bool var to check if label is already in data object
   let inObj = false;
   for(var property in testData){
@@ -104,9 +105,7 @@ var customizeInupt = function(){
   //make conditions to make sure inputed value is a non negative number
   if((Number(inputValue) || inputValue == 0) && inputValue >= 0 && !(inObj) ){
     testData[inputLabel] = inputValue;
-    $(".barChart").remove();
-    $("#title").remove();
-    drawBarChart(testData, testOptions, testElement);
+    newChart();
     $(`<p id='p${track}'><span id='sp${track}'>${inputLabel}: ${inputValue}</span> <button id='${track}' class='remove'>Remove</button></p>`).prependTo("#userInput");
     //add event listener to "remove" button to delete label and value from chart
     $(".remove").click(removeInput);
@@ -123,16 +122,26 @@ var removeInput = function(event){
   var rmKey = str.split(":")[0];
 
   delete testData[rmKey];
-  $(".barChart").remove();
-  $("#title").remove();
   par.remove();
-  drawBarChart(testData, testOptions, testElement);
-
+  newChart();
 }
 
-// event lister that adds user input when "add to chart" button is clicked
+//function that clears old graph and calls drawBarChart function
+var newChart = function (){
+  $(".barChart").remove();
+  $("#title").remove();
+  drawBarChart(testData, testOptions, testElement);
+}
+
+// event listener that adds user input when "add to chart" button is clicked
 $(".inputData").click(customizeInupt);
 
+//add event listener that changes width and height to users input
+$(".inputDim").click(function(){
+  testOptions["height"] = $('.inputHeight')[0].value;
+  testOptions["width"] = $('.inputWidth')[0].value;
+  newChart();
+});
 
 var testData = {};
 let testOptions = {

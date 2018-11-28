@@ -11,12 +11,29 @@
   <div id="barChart"></div>
   <br><hr>
   <h2>Customize Chart:</h2>
+
+  <h3>Change width and height of Bar Chart:</h3>
+  <div>
+    Width: <input
+      placeholder='in px, cm or %'
+      class="inputWidth"
+      type="text"
+      name="Width">
+    Height: <input
+      placeholder='in px, cm or %'
+      class="inputHeight"
+      type="text"
+      name="height">
+    <button class="inputDim">Make Changes</button>
+  </div>
+
   <h3>Add data to chart:</h3>
   <div id="userInput">
     Label: <input placeholder='Text' class="inputLabel" type="text" name="Label">
     Value: <input placeholder='Number' class="inputValue" type="text" name="Value">
     <button class="inputData">Add To Chart</button>
   </div>
+
   <script src="jquery.js"></script>
   <script src="script.js"></script>
 </body>
