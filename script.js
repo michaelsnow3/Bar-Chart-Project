@@ -87,18 +87,51 @@ var drawBarChart = function(data, options, element){
   }
 }
 
-var test = function(){
+//variable to keep track of user inputed data in order to select and delete
+var track = 0;
+
+//function that adds users input for label and value for bar chart
+var customizeInupt = function(){
   let inputLabel = $(".inputLabel")[0].value;
   let inputValue = $(".inputValue")[0].value;
-  if(Number(inputValue)){
+  //bool var to check if label is already in data object
+  let inObj = false;
+  for(var property in testData){
+    if(property == inputLabel){
+      inObj = true;
+    }
+  }
+  //make conditions to make sure inputed value is a non negative number
+  if((Number(inputValue) || inputValue == 0) && inputValue >= 0 && !(inObj) ){
     testData[inputLabel] = inputValue;
     $(".barChart").remove();
     $("#title").remove();
     drawBarChart(testData, testOptions, testElement);
+    $(`<p id='p${track}'><span id='sp${track}'>${inputLabel}: ${inputValue}</span> <button id='${track}' class='remove'>Remove</button></p>`).prependTo("#userInput");
+    //add event listener to "remove" button to delete label and value from chart
+    $(".remove").click(removeInput);
+    track++;
   }
 }
 
-$(".inputData").click(test);
+//function that removes specified value and key from chart
+var removeInput = function(event){
+  spTrack = event.target.id;
+  var par = $(`#p${spTrack}`);
+  var item = $(`#sp${spTrack}`);
+  var str = item[0].innerHTML;
+  var rmKey = str.split(":")[0];
+
+  delete testData[rmKey];
+  $(".barChart").remove();
+  $("#title").remove();
+  par.remove();
+  drawBarChart(testData, testOptions, testElement);
+
+}
+
+// event lister that adds user input when "add to chart" button is clicked
+$(".inputData").click(customizeInupt);
 
 
 var testData = {};
