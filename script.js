@@ -2,6 +2,10 @@ var drawBarChart = function(data, options, element){
   //bar chart options
   var barChartWidth = "100%";
   var barChartHeight = "500px";
+  var barChartTitle = 'Bar Chart Title';
+  if(options.title){
+    barChartTitle = options.title;
+  }
   if(options.width){
     barChartWidth = options.width;
   }
@@ -15,7 +19,7 @@ var drawBarChart = function(data, options, element){
   table.appendTo(barChart);
 
   //add a title to bar chart
-  var title = $("<h1 id='title'>Chart Title</h1>");
+  var title = $(`<h1 id='title'>${barChartTitle}</h1>`);
   title.prependTo(barChart);
 
   //make a variable that will contain an array of the y-values and be used to determine y increment
@@ -143,11 +147,18 @@ $(".inputDim").click(function(){
   newChart();
 });
 
+//add event listener that chagnes chart title to users input
+$(".changeTitle").click(function(){
+  testOptions["title"] = $('.inputTitle')[0].value;
+  newChart();
+})
+
 var testData = {};
-let testOptions = {
+var testOptions = {
   width: '80%',
-  height: '400px'
+  height: '400px',
+  title: 'Bar Chart Title'
 };
-let testElement = "#barChart";
+var testElement = "#barChart";
 
 drawBarChart(testData, testOptions, testElement);
