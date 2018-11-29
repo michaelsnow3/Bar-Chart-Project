@@ -1,12 +1,5 @@
 var drawBarChart = function(data, options, element){
   //bar chart options
-  let barChartWidth = "100%";
-  let barChartHeight = "500px";
-  let barChartTitle = 'Bar Chart Title';
-  let titleFontSize = '2em';
-  let titleFontColour = 'black';
-  let barValuePosition = 'middle';
-  let barSpacing = '80%';
 
   if(options.barSpacing){
     barSpacing = options.barSpacing;
@@ -246,4 +239,4 @@ let testOptions = {
 };
 let testElement = "#barChart";
 
-drawBarChart(testData = {'a': 12, 'b': 6, 'c': 8}, testOptions, testElement);
+drawBarChart(testData = {a: 12, b: 5}, testOptions, testElement);

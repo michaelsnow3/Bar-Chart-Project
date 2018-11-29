@@ -1,3 +1,6 @@
+body{
+  text-align: center;
+}
 .barChart{
   border: 2px solid black;
   border-collapse: collapse;
