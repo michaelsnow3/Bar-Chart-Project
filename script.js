@@ -98,7 +98,6 @@ var drawBarChart = function(data, options, element){
     let empty = $(`<tr><td style="height: ${100 - heightPercent}%;" class='empty'></td></tr>`);
     let tableCell = $("<td class='dataCell'></td>");
 
-    // label.appendTo(row);
     bar.appendTo(row);
     empty.appendTo(subTable);
     row.appendTo(subTable);
@@ -227,6 +226,45 @@ $('#positionTop').click(setPosition);
 $('#positionMiddle').click(setPosition);
 $('#positionBottom').click(setPosition);
 
+//add toggle to stacked and single chart options
+$("#stacked").attr("class", "hidden");
+$(".toggleType").click(function(){
+  if(!testOptions["stacked"]){
+    $("#stacked").attr("class", "show");
+    $("#single").attr("class", "hidden");
+    testOptions["stacked"] = true;
+  } else{
+    $("#single").attr("class", "show")
+    $("#stacked").attr("class", "hidden");
+    testOptions["stacked"] = false;
+  }
+})
+
+//add event listener to add catagory button that adds catagory options for user
+$(".addCat").click(function(){
+  let newCat =
+    `<div>
+      Catagory:
+      <input placeholder='number' class="inputCat" type="text" name="Catagory">
+      Catagory Colour: <input
+      placeholder='Colour'
+      class="inputCatColour"
+      type="color"
+      name="catColour">
+      Value:
+      <input placeholder='number' class="inputValue" type="text" name="Value">
+      <button class='removeCat'>Remove Catagory</button>
+      <br>
+    </div>`
+  $(".addCatagory").append(newCat);
+
+  //add option to remove added catagory
+  $(".removeCat").click(function(e){
+    let catDiv = e.target.parentElement;
+    catDiv.remove();
+  })
+})
+
 let testData = {};
 let testOptions = {
   width: '80%',
@@ -235,7 +273,8 @@ let testOptions = {
   titleFontSize: '2em',
   titleColour: 'black',
   valuePosition: 'middle',
-  barSpacing: '80%'
+  barSpacing: '80%',
+  stacked: false
 };
 let testElement = "#barChart";
 

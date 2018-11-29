@@ -9,10 +9,10 @@
 
   <h1>Bar Chart Generater</h1>
   <div id="barChart"></div>
-  <br><hr>
-  <h1>Customize Chart:</h1>
+  <br><!-- <hr> -->
+  <h1 id='customize'>Customize Chart:</h1>
   <hr>
-  <h3>Change Title of Bar Chart</h3>
+  <h3>Change Title of Bar Chart:</h3>
   <div id='changeTitle'>
     Title: <input
       placeholder='text'
@@ -32,24 +32,56 @@
     <button class="changeTitle">Make Changes</button>
   </div><hr>
 
-  <h3>Add data to chart:</h3>
-  <div id="userInput">
-    Label: <input placeholder='text' class="inputLabel" type="text" name="Label">
-    Value: <input placeholder='number' class="inputValue" type="text" name="Value">
-    <br><br>
-    Label Colour: <input
-    placeholder='Colour'
-    class="inputLabelColour"
-    type="color"
-    name="labelColour">
-    Bar Colour: <input
-    placeholder='Colour'
-    class="inputBarColour"
-    type="color"
-    name="barColour">
-    <br><br>
-    <button class="inputData">Add To Chart</button>
-  </div><hr>
+  <div id='single'>
+    <h3>Add Data to Chart:</h3>
+    <div id="userInput">
+      Label: <input placeholder='text' class="inputLabel" type="text" name="Label">
+      Value: <input placeholder='number' class="inputValue" type="text" name="Value">
+      <br><br>
+      Label Colour: <input
+      placeholder='Colour'
+      class="inputLabelColour"
+      type="color"
+      name="labelColour">
+      Bar Colour: <input
+      placeholder='Colour'
+      class="inputBarColour"
+      type="color"
+      name="barColour">
+      <br><br>
+      <button class="inputData">Add To Chart</button><br><br>
+      Click for Stacked Bar Chart: <button class="toggleType">Stacked</button>
+    </div><hr>
+  </div>
+
+  <div id='stacked'>
+    <h3>Add Stacked Data to Chart:</h3>
+    <div id="userInput">
+      Label: <input placeholder='text' class="inputLabel" type="text" name="Label">
+      Label Colour: <input
+        placeholder='Colour'
+        class="inputLabelColour"
+        type="color"
+        name="labelColour">
+      <br><br>
+      <div class='addCatagory'>
+        Catagory:
+        <input placeholder='number' class="inputCat" type="text" name="Catagory">
+        Catagory Colour: <input
+        placeholder='Colour'
+        class="inputCatColour"
+        type="color"
+        name="catColour">
+        Value:
+        <input placeholder='number' class="inputValue" type="text" name="Value">
+        <br>
+      </div>
+      <br>
+      <button class="addCat">Add Catagory</button>
+      <button class="inputStackedData">Add To Chart</button> <br><br>
+      Click for Single Value Bar Chart: <button class="toggleType">Single Value</button>
+    </div><hr>
+  </div>
 
   <h3>Change Width and Height of Bar Chart:</h3>
   <div id='changeDim'>
