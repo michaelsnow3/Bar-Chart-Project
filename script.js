@@ -1,7 +1,6 @@
 var drawBarChart = function(data, options, element){
   //bar chart options
 
-// console.log(data);
 
   if(options.barSpacing){
     barSpacing = options.barSpacing;
@@ -28,7 +27,7 @@ var drawBarChart = function(data, options, element){
   //create bar chart outline located at element parameter
   let barChart = $(element);
   let table = $(`<table style="height: ${barChartHeight}; width: ${barChartWidth}" class='barChart'></table>`);
-  table.appendTo(barChart);
+  table.prependTo(barChart);
 
   //add a title to bar chart
   let title = $(`<h1 id='title'
@@ -355,8 +354,7 @@ $(".inputStackedData").click(function(e){
     }
   }
 
-  let space = ' ';
-  let stackTable = $("<table class='stackTable'></table>");
+  let stackTable = $(`<table id='${stackedObj['inputLabel']}-table' class='stackTable'></table>`);
   let row = $("<tr></tr>").appendTo(stackTable);
   let labelHeader = $(`<th colspan='2' class='labelHeader' >${stackedObj["inputLabel"]}</th>`).appendTo(row);
   for(let i=0; i < stackedObj["inputValue"].length; i++){
@@ -369,11 +367,29 @@ $(".inputStackedData").click(function(e){
     stackRow.appendTo(stackTable);
   }
 
+  let removeStack = $(`<button id='${stackedObj['inputLabel']}-remove' class='removeStack'>Remove</button>`).appendTo(stackTable);
   stackTable.appendTo("#barChart");
+  //event listener for remove button
+  removeStack.click(function(e){
+    let targetLabel = e.currentTarget.id.split("-")[0];
+    let targetTable = $("#" + targetLabel + "-table");
+    //remove key
+    targetTable.remove();
+    //remove bar
+    delete testData[targetLabel];
+    newChart();
+  })
+
 
   testData[stackedObj["inputLabel"]] = stackedObj;
   newChart(testData, testOptions, testElement);
 })
+
+//function that removes stacked bar and key
+let removeStack = function(e){
+
+}
+
 
 let testData = {};
 let testOptions = {
