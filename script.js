@@ -1,7 +1,6 @@
 var drawBarChart = function(data, options, element){
   //bar chart options
 
-
   if(options.barSpacing){
     barSpacing = options.barSpacing;
   }
@@ -326,6 +325,7 @@ $(".addCat").click(function(){
 
 //add event listener to add stacked data to chart
 $(".inputStackedData").click(function(e){
+
   let stackedObj = {
     inputLabel: '',
     inputCat: [],
@@ -343,7 +343,6 @@ $(".inputStackedData").click(function(e){
       }
     }
   }
-
   let stackedDiv = e.target.parentElement.children
   // console.log(stackedDiv);
   for(let k=0; k < stackedDiv.length; k++){
@@ -352,6 +351,16 @@ $(".inputStackedData").click(function(e){
     }else if(stackedDiv[k].tagName == "DIV"){
       inputSearch(stackedDiv[k].children);
     }
+  }
+  //make sure label names are unique
+  for(let props in testData){
+    if(props === stackedObj["inputLabel"]){
+      return;
+    }
+  }
+  //make sure input value is a number
+  if(!((Number(stackedObj["inputLabel"]) || stackedObj["inputLabel"] == 0) && stackedObj["inputLabel"] >= 0)){
+    return;
   }
 
   let stackTable = $(`<table id='${stackedObj['inputLabel']}-table' class='stackTable'></table>`);
