@@ -64,3 +64,20 @@ button{
 .show{
   display: block;
 }
+.stackTable{
+  width: 30%;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid black;
+}
+.colourCell{
+  width: 25%;
+  text-align: center;
+}
+.catCell{
+  width: 75%;
+  text-align: center;
+}
+.labelHeader{
+  text-align: center;
+}

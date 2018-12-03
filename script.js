@@ -1,6 +1,8 @@
 var drawBarChart = function(data, options, element){
   //bar chart options
 
+// console.log(data);
+
   if(options.barSpacing){
     barSpacing = options.barSpacing;
   }
@@ -43,7 +45,13 @@ var drawBarChart = function(data, options, element){
 
   //fill yArray with y values inputed by user
   for(let yValue in data){
-    yArray.push(data[yValue]);
+    if(typeof data[yValue] === 'object'){
+      for(let stackIndex=0; stackIndex < data[yValue]["inputValue"].length; stackIndex++){
+        yArray.push(data[yValue]["inputValue"][stackIndex]);
+      }
+    } else{
+      yArray.push(data[yValue]);
+    }
   }
   //sort yArray and make a loop to determine if increment should be increased based on array range
   yArray.sort(function(a, b){
@@ -61,6 +69,8 @@ var drawBarChart = function(data, options, element){
     yMax += yAxisInc;
   }
 
+  // console.log(yArray);
+
   let tableRow = $("<tr></tr>");
   tableRow.appendTo(table);
 
@@ -76,33 +86,82 @@ var drawBarChart = function(data, options, element){
 
   //create labels and bars for each property given
   for(let property in data){
-    //select correct colour for current property
-    let barColour = 'lightblue';
-    for(let prop in options){
-      if(prop == property + "BarColour"){
-        barColour = options[prop];
+    //for stacked data
+    if(typeof data[property] === 'object'){
+      let stackedData = data[property];
+      let subTable = $(`<table style='width: ${barSpacing}' class='subTable'</table>`);
+      let maxHeight;
+      let prevHeight = 0;
+
+      //make array linking values with colours in order to keep connection after sorting value array
+      let currentColour = '';
+      let stackArray = [];
+      for(let i=0; i < stackedData["inputValue"].length; i++){
+        let tempArray = [];
+        tempArray.push(stackedData["inputValue"][i]);
+        tempArray.push(stackedData["inputCatColour"][i]);
+        stackArray.push(tempArray);
       }
+      stackedData["inputValue"].sort(function (a, b) {  return a - b;  });
+
+      for(let i=0; i < stackedData["inputValue"].length; i++){
+        let orderedColour = '';
+        for(let k=0; k < stackedData["inputValue"].length; k++){
+          if(stackedData["inputValue"][i] === stackArray[k][0]){
+            orderedColour = stackArray[k][1];
+          }
+        }
+        //make variable to keep track of bar width
+        let heightPercent = (stackedData["inputValue"][i] / yMax) * 100;
+        // console.log(stackedData["inputCatColour"], heightPercent);
+        let row = $("<tr></tr>");
+        let bar = $(`<td style="
+        height: ${heightPercent - prevHeight}%;
+        background-color: ${orderedColour};
+        vertical-align: ${barValuePosition}"
+        class='bar'>${stackedData["inputValue"][i]}</td>`);
+
+        bar.appendTo(row);
+        row.prependTo(subTable);
+        prevHeight = heightPercent;
+      }
+
+      //make variables for html table tags
+      let empty = $(`<tr><td style="height: ${100 - maxHeight}%;" class='empty'></td></tr>`);
+      let tableCell = $("<td class='dataCell'></td>");
+
+      empty.prependTo(subTable);
+      subTable.appendTo(tableCell);
+      tableCell.appendTo(tableRow);
+    }else{
+      //select correct colour for current property
+      let barColour = 'lightblue';
+      for(let prop in options){
+        if(prop == property + "BarColour"){
+          barColour = options[prop];
+        }
+      }
+
+      //make variable to keep track of bar width
+      let heightPercent = (data[property] / yMax) * 100;
+
+      //make variables for html table tags
+      let subTable = $(`<table style='width: ${barSpacing}' class='subTable'</table>`);
+      let row = $("<tr></tr>");
+      let bar = $(`<td style="
+        height: ${heightPercent}%;
+        background-color: ${barColour};
+        vertical-align: ${barValuePosition}"
+        class='bar'>${data[property]}</td>`);
+      let empty = $(`<tr><td style="height: ${100 - heightPercent}%;" class='empty'></td></tr>`);
+      let tableCell = $("<td class='dataCell'></td>");
+
+      bar.appendTo(row);
+      empty.appendTo(subTable);
+      row.appendTo(subTable);
+      subTable.appendTo(tableCell);
+      tableCell.appendTo(tableRow);
     }
-
-    //make variable to keep track of bar width
-    let heightPercent = (data[property] / yMax) * 100;
-
-    //make variables for html table tags
-    let subTable = $(`<table style='width: ${barSpacing}' class='subTable'</table>`);
-    let row = $("<tr></tr>");
-    let bar = $(`<td style="
-      height: ${heightPercent}%;
-      background-color: ${barColour};
-      vertical-align: ${barValuePosition}"
-      class='bar'>${data[property]}</td>`);
-    let empty = $(`<tr><td style="height: ${100 - heightPercent}%;" class='empty'></td></tr>`);
-    let tableCell = $("<td class='dataCell'></td>");
-
-    bar.appendTo(row);
-    empty.appendTo(subTable);
-    row.appendTo(subTable);
-    subTable.appendTo(tableCell);
-    tableCell.appendTo(tableRow);
   }
 
   //add table row for x labels
@@ -152,6 +211,7 @@ let customizeInput = function(){
     newChart();
   }
 }
+
 //function that removes specified value and key from chart
 let removeInput = function(event){
   spTrack = event.target.id;
@@ -244,8 +304,8 @@ $(".toggleType").click(function(){
 $(".addCat").click(function(){
   let newCat =
     `<div>
-      Catagory:
-      <input placeholder='number' class="inputCat" type="text" name="Catagory">
+      Catagory Name:
+      <input placeholder='text' class="inputCat" type="text" name="Catagory">
       Catagory Colour: <input
       placeholder='Colour'
       class="inputCatColour"
@@ -265,6 +325,56 @@ $(".addCat").click(function(){
   })
 })
 
+//add event listener to add stacked data to chart
+$(".inputStackedData").click(function(e){
+  let stackedObj = {
+    inputLabel: '',
+    inputCat: [],
+    inputCatColour: [],
+    inputValue: []
+  }
+  //function that searches for input tags and stores target value in array
+  var inputSearch = function(inputTag, obj){
+    // console.log(inputTag);
+    for(let idx=0; idx < inputTag.length; idx++){
+      if(inputTag[idx].tagName == "DIV"){
+        inputSearch(inputTag[idx].children);
+      }else if(inputTag[idx].tagName == "INPUT"){
+        stackedObj[inputTag[idx].className].push(inputTag[idx].value);
+      }
+    }
+  }
+
+  let stackedDiv = e.target.parentElement.children
+  // console.log(stackedDiv);
+  for(let k=0; k < stackedDiv.length; k++){
+    if(stackedDiv[k].tagName == "INPUT"){
+      stackedObj[stackedDiv[k].className] = stackedDiv[k].value;
+    }else if(stackedDiv[k].tagName == "DIV"){
+      inputSearch(stackedDiv[k].children);
+    }
+  }
+
+  let space = ' ';
+  let stackTable = $("<table class='stackTable'></table>");
+  let row = $("<tr></tr>").appendTo(stackTable);
+  let labelHeader = $(`<th colspan='2' class='labelHeader' >${stackedObj["inputLabel"]}</th>`).appendTo(row);
+  for(let i=0; i < stackedObj["inputValue"].length; i++){
+    let stackRow = $("<tr></tr>");
+    let colourCell = $(`<td class='colourCell' style="background-color: ${stackedObj['inputCatColour'][i]};" ></td>`);
+    let catCell = $(`<td class='catCell' >${stackedObj['inputCat'][i]}</td>`);
+
+    colourCell.appendTo(stackRow);
+    catCell.appendTo(stackRow);
+    stackRow.appendTo(stackTable);
+  }
+
+  stackTable.appendTo("#barChart");
+
+  testData[stackedObj["inputLabel"]] = stackedObj;
+  newChart(testData, testOptions, testElement);
+})
+
 let testData = {};
 let testOptions = {
   width: '80%',
@@ -278,4 +388,4 @@ let testOptions = {
 };
 let testElement = "#barChart";
 
-drawBarChart(testData = {a: 12, b: 5}, testOptions, testElement);
+drawBarChart(testData, testOptions, testElement);
