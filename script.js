@@ -1,5 +1,6 @@
 var drawBarChart = function(data, options, element){
-  //bar chart options
+
+  //enable bar chart options
 
   if(options.barSpacing){
     barSpacing = options.barSpacing;
@@ -204,8 +205,8 @@ var customizeInput = function(){
   if((Number(inputValue) || inputValue == 0) && inputValue >= 0 && !(inObj) ){
     testData[inputLabel] = inputValue;
     $(`<p id='p${track}'>
-      <span id='sp${track}'>${inputLabel}: </span><button id='${track}' class='remove'>Remove</button></p>`)
-      .prependTo("#userInput");
+    <span id='sp${track}'>${inputLabel}: </span><button id='${track}' class='remove'>Remove</button></p>`)
+    .prependTo("#userInput");
     testOptions[inputLabel+"LabelColour"] = currentLabelColour;
     testOptions[inputLabel+"BarColour"] = currentBarColour;
     //add event listener to "remove" button to delete label and value from chart
@@ -339,7 +340,7 @@ $(".inputStackedData").click(function(e){
   }
   //function that searches for input tags and stores target value in array
   var inputSearch = function(inputTag, obj){
-    // console.log(inputTag);
+
     for(var idx=0; idx < inputTag.length; idx++){
       if(inputTag[idx].tagName == "DIV"){
         inputSearch(inputTag[idx].children);
@@ -349,7 +350,7 @@ $(".inputStackedData").click(function(e){
     }
   }
   var stackedDiv = e.target.parentElement.children
-  // console.log(stackedDiv);
+
   for(var k=0; k < stackedDiv.length; k++){
     if(stackedDiv[k].tagName == "INPUT"){
       stackedObj[stackedDiv[k].className] = stackedDiv[k].value;
