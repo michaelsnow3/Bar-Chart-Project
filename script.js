@@ -387,9 +387,8 @@ $(".inputStackedData").click(function(e){
   //event listener for remove button
   removeStack.click(function(e){
     var targetLabel = e.currentTarget.id.split("-")[0];
-    var targetTable = $("#" + targetLabel + "-table");
     //remove key
-    targetTable.remove();
+    e.currentTarget.parentElement.remove();
     //remove bar
     delete testData[targetLabel];
     newChart();
@@ -399,11 +398,6 @@ $(".inputStackedData").click(function(e){
   testData[stackedObj["inputLabel"]] = stackedObj;
   newChart(testData, testOptions, testElement);
 })
-
-//function that removes stacked bar and key
-var removeStack = function(e){
-
-}
 
 
 var testData = {};
